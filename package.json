@@ -1,10 +1,10 @@
 {
   "name": "eslint-extends-callbacks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Allows extending the base eslint configs using callbacks to re-use parts of the overridden configs.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,13 @@
   "homepage": "https://github.com/MaienM/eslint-extends-callbacks#readme",
   "peerDependencies": {
     "eslint": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
+    "jest": "^21.2.1"
   }
 }

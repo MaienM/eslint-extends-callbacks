@@ -11,7 +11,7 @@ rule.
 
 ## Example
 
-javascript
+[javascript]
 ```
 const extendsCallbacks = require('./eslint-extends-callbacks');
 
