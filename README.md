@@ -23,6 +23,6 @@ module.exports = extendsCallbacks({
 		// Don't allow multiple empty lines
 		'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 1 }],
 	},
-});
+}, __filename, __dirname);
 ```
 
