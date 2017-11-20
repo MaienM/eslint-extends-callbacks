@@ -1,0 +1,25 @@
+{
+  "name": "eslint-extends-callbacks",
+  "version": "1.0.0",
+  "description": "Allows extending the base eslint configs using callbacks to re-use parts of the overridden configs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaienM/eslint-extends-callbacks.git"
+  },
+  "keywords": [
+    "eslint"
+  ],
+  "author": "Michon van Dooren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaienM/eslint-extends-callbacks/issues"
+  },
+  "homepage": "https://github.com/MaienM/eslint-extends-callbacks#readme",
+  "peerDependencies": {
+    "eslint": "^4.0.0"
+  }
+}
