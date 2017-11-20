@@ -1,15 +1,13 @@
-const Config = require('eslint/lib/config');
-const ConfigFile = require('eslint/lib/config/config-file');
-const Linter = require('eslint/lib/linter');
+const CLIEngine = require('eslint/lib/cli-engine');
 
 function extendsCallbacks(config, filename, dirname) {
 	// Expand the config, minus the rules
-	const expanded = ConfigFile.applyExtends(
-		Object.assign({}, config, { rules: [] }),
-		new Config({}, new Linter()),
-		filename,
-		dirname,
-	);
+	const cli = new CLIEngine({
+		useEslintrc: false,
+		allowInlineConfig: false,
+		baseConfig: Object.assign({}, config, { rules: {} }),
+	});
+	const expanded = cli.getConfigForFile('index.js');
 
 	// Look for any rules that are callbacks and invoke them
 	const expandedRules = Object
@@ -19,7 +17,7 @@ function extendsCallbacks(config, filename, dirname) {
 			if (typeof value !== 'function') {
 				return [key, value];
 			}
-			return [key, value.apply(value, expanded.rules[0][key])];
+			return [key, value.apply(value, expanded.rules[key])];
 		})
 		.reduce(function(obj, entry) { return Object.assign(obj, { [entry[0]]: entry[1] }); }, {});
 
