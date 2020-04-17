@@ -1,4 +1,7 @@
-const CLIEngine = require('eslint/lib/cli-engine');
+let CLIEngine = require('eslint/lib/cli-engine'); // ESLint 4.x and 5.x.
+if (CLIEngine.CLIEngine) { // ESLint 6.x
+	CLIEngine = CLIEngine.CLIEngine;
+}
 
 function extendsCallbacks(config, filename, dirname) {
 	// Expand the config, minus the rules

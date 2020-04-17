@@ -9,7 +9,7 @@ test('extendsCallbacks works with callback rules', () => {
 	}, __filename, __dirname);
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(1);
+	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
 });
 
 test('extendsCallbacks works with static rules', () => {
@@ -33,7 +33,7 @@ test('extendsCallbacks works with multiple extends', () => {
 	}, __filename, __dirname);
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(1);
+	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
 });
 
 test('extendsCallbacks does not return rules that are not overridden', () => {
