@@ -3,7 +3,7 @@ if (CLIEngine.CLIEngine) { // ESLint 6.x
 	CLIEngine = CLIEngine.CLIEngine;
 }
 
-function extendsCallbacks(config, filename, dirname) {
+function extendsCallbacks(config) {
 	// A clean version of the config that will be based purely on the defaults/extends.
 	const baseConfig = Object.assign({}, config, {
 		rules: {},

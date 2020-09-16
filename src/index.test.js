@@ -6,7 +6,7 @@ test('extendsCallbacks works with callback rules', () => {
 		rules: {
 			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 		},
-	}, __filename, __dirname);
+	});
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
 	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
@@ -21,7 +21,7 @@ test('extendsCallbacks works with a callback for the entire ruleset', () => {
 				[r[0], { ...r[1], 'max': 5 }]
 			),
 		}),
-	}, __filename, __dirname);
+	});
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
 	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
@@ -33,7 +33,7 @@ test('extendsCallbacks works with static rules', () => {
 		rules: {
 			'no-multiple-empty-lines': ['warning', { max: 4 }],
 		},
-	}, __filename, __dirname);
+	});
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('warning');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(4);
 	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toBeUndefined();
@@ -45,7 +45,7 @@ test('extendsCallbacks works with multiple extends', () => {
 		rules: {
 			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 		},
-	}, __filename, __dirname);
+	});
 	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
 	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
@@ -57,7 +57,7 @@ test('extendsCallbacks does not return rules that are not overridden', () => {
 		rules: {
 			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 		},
-	}, __filename, __dirname);
+	});
 	expect(result.rules['no-tabs']).toBeUndefined();
 });
 
@@ -70,7 +70,7 @@ test('extendsCallbacks works with callback rules in an override', () => {
 				'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 			},
 		}],
-	}, __filename, __dirname);
+	});
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
@@ -88,7 +88,7 @@ test('extendsCallbacks works with a callback for the entire ruleset in an overri
 				),
 			}),
 		}],
-	}, __filename, __dirname);
+	});
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
 	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
