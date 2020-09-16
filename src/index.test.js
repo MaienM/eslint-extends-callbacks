@@ -66,6 +66,7 @@ test('extendsCallbacks works with callback rules in an override', () => {
 		extends: 'airbnb',
 		rules: {},
 		overrides: [{
+			files: ['**/*.js'],
 			rules: {
 				'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 			},
@@ -81,6 +82,7 @@ test('extendsCallbacks works with a callback for the entire ruleset in an overri
 		extends: 'airbnb',
 		rules: {},
 		overrides: [{
+			files: ['**/*.js'],
 			rules: (rules) => ({
 				'no-multiple-empty-lines': (
 					r = rules['no-multiple-empty-lines'],

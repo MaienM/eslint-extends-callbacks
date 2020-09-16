@@ -22,9 +22,12 @@ function extendsCallbacks(config) {
 	// Process overrides if they exist. We combine the extends from the override with that of the base config so that the
 	// callback actually receives the value the rule would have at that point.
 	if (config.overrides) {
-		result.overrides = config.overrides.map((override) => extendsCallbacks({
+		result.overrides = config.overrides.map((override) => ({
 			...override,
-			extends: [baseConfig.extends, override.extends].flat().filter((v) => v),
+			...extendsCallbacks({
+				extends: [baseConfig.extends, override.extends].flat().filter((v) => v),
+				rules: override.rules,
+			}),
 		}));
 	}
 
