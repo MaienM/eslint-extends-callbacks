@@ -7,9 +7,16 @@ test('extendsCallbacks works with callback rules', () => {
 			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 		},
 	});
-	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
-	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+	expect(result).toEqual({
+		extends: 'airbnb',
+		rules: {
+			'no-multiple-empty-lines': ['error', {
+				max: 5,
+				maxBOF: 0,
+				maxEOF: 0,
+			}],
+		},
+	});
 });
 
 test('extendsCallbacks works with a callback for the entire ruleset', () => {
@@ -22,9 +29,16 @@ test('extendsCallbacks works with a callback for the entire ruleset', () => {
 			),
 		}),
 	});
-	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
-	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+	expect(result).toEqual({
+		extends: 'airbnb',
+		rules: {
+			'no-multiple-empty-lines': ['error', {
+				max: 5,
+				maxBOF: 0,
+				maxEOF: 0,
+			}],
+		},
+	});
 });
 
 test('extendsCallbacks works with static rules', () => {
@@ -34,9 +48,12 @@ test('extendsCallbacks works with static rules', () => {
 			'no-multiple-empty-lines': ['warning', { max: 4 }],
 		},
 	});
-	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('warning');
-	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(4);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toBeUndefined();
+	expect(result).toEqual({
+		extends: 'airbnb',
+		rules: {
+			'no-multiple-empty-lines': ['warning', { max: 4 }],
+		},
+	});
 });
 
 test('extendsCallbacks works with multiple extends', () => {
@@ -46,19 +63,16 @@ test('extendsCallbacks works with multiple extends', () => {
 			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
 		},
 	});
-	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
-	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
-});
-
-test('extendsCallbacks does not return rules that are not overridden', () => {
-	const result = extendsCallbacks({
-		extends: 'airbnb',
+	expect(result).toEqual({
+		extends: ['airbnb', 'airbnb'],
 		rules: {
-			'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
+			'no-multiple-empty-lines': ['error', {
+				max: 5,
+				maxBOF: 0,
+				maxEOF: 0,
+			}],
 		},
 	});
-	expect(result.rules['no-tabs']).toBeUndefined();
 });
 
 test('extendsCallbacks works with callback rules in an override', () => {
@@ -72,9 +86,20 @@ test('extendsCallbacks works with callback rules in an override', () => {
 			},
 		}],
 	});
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+	expect(result).toEqual({
+		extends: 'airbnb',
+		rules: {},
+		overrides: [{
+			files: ['**/*.js'],
+			rules: {
+				'no-multiple-empty-lines': ['error', {
+					max: 5,
+					maxBOF: 0,
+					maxEOF: 0,
+				}],
+			},
+		}],
+	});
 });
 
 test('extendsCallbacks works with a callback for the entire ruleset in an override', () => {
@@ -91,7 +116,18 @@ test('extendsCallbacks works with a callback for the entire ruleset in an overri
 			}),
 		}],
 	});
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
-	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+	expect(result).toEqual({
+		extends: 'airbnb',
+		rules: {},
+		overrides: [{
+			files: ['**/*.js'],
+			rules: {
+				'no-multiple-empty-lines': ['error', {
+					max: 5,
+					maxBOF: 0,
+					maxEOF: 0,
+				}],
+			},
+		}],
+	});
 });

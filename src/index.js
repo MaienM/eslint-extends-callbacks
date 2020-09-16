@@ -5,10 +5,9 @@ if (CLIEngine.CLIEngine) { // ESLint 6.x
 
 function extendsCallbacks(config) {
 	// A clean version of the config that will be based purely on the defaults/extends.
-	const baseConfig = Object.assign({}, config, {
-		rules: {},
-		overrides: [],
-	});
+	const baseConfig = Object.assign({}, config);
+	baseConfig.rules = {};
+	delete baseConfig.overrides;
 	const result = Object.assign({}, baseConfig);
 
 	// Expand this config to get the actual values of the rules.
@@ -22,13 +21,20 @@ function extendsCallbacks(config) {
 	// Process overrides if they exist. We combine the extends from the override with that of the base config so that the
 	// callback actually receives the value the rule would have at that point.
 	if (config.overrides) {
-		result.overrides = config.overrides.map((override) => ({
-			...override,
-			...extendsCallbacks({
-				extends: [baseConfig.extends, override.extends].flat().filter((v) => v),
-				rules: override.rules,
-			}),
-		}));
+		result.overrides = config.overrides.map((override) => {
+			const overrideResult = {
+				...override,
+				...extendsCallbacks({
+					extends: [baseConfig.extends, override.extends].flat().filter((v) => v),
+					rules: override.rules,
+				}),
+				extends: override.extends,
+			};
+			if (overrideResult.extends === undefined) {
+				delete overrideResult.extends;
+			}
+			return overrideResult;
+		});
 	}
 
 	if (typeof config.rules === 'function') {
