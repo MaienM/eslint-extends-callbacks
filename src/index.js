@@ -33,19 +33,20 @@ function extendsCallbacks(config) {
 
 	if (typeof config.rules === 'function') {
 		result.rules = config.rules(expanded.rules);
+	} else {
+		result.rules = config.rules;
 	}
-	else {
-		result.rules = Object
-			.entries(config.rules)
-			.map(function(entry) {
-				const key = entry[0], value = entry[1];
-				if (typeof value !== 'function') {
-					return [key, value];
-				}
-				return [key, value.apply(value, expanded.rules[key])];
-			})
-			.reduce(function(obj, entry) { return Object.assign(obj, { [entry[0]]: entry[1] }); }, {});
-	}
+
+	result.rules = Object
+		.entries(result.rules)
+		.map(function(entry) {
+			const key = entry[0], value = entry[1];
+			if (typeof value !== 'function') {
+				return [key, value];
+			}
+			return [key, value.apply(value, expanded.rules[key])];
+		})
+		.reduce(function(obj, entry) { return Object.assign(obj, { [entry[0]]: entry[1] }); }, {});
 
 	return result;
 }
