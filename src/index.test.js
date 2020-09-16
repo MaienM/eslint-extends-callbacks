@@ -61,3 +61,35 @@ test('extendsCallbacks does not return rules that are not overridden', () => {
 	expect(result.rules['no-tabs']).toBeUndefined();
 });
 
+test('extendsCallbacks works with callback rules in an override', () => {
+	const result = extendsCallbacks({
+		extends: 'airbnb',
+		rules: {},
+		overrides: [{
+			rules: {
+				'no-multiple-empty-lines': (severity, options) => [severity, { ...options, 'max': 5 }],
+			},
+		}],
+	}, __filename, __dirname);
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+});
+
+test('extendsCallbacks works with a callback for the entire ruleset in an override', () => {
+	const result = extendsCallbacks({
+		extends: 'airbnb',
+		rules: {},
+		overrides: [{
+			rules: (rules) => ({
+				'no-multiple-empty-lines': (
+					r = rules['no-multiple-empty-lines'],
+					[r[0], { ...r[1], 'max': 5 }]
+				),
+			}),
+		}],
+	}, __filename, __dirname);
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][0]).toEqual('error');
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].max).toEqual(5);
+	expect(result.overrides[0].rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+});

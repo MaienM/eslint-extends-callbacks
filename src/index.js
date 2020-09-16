@@ -4,33 +4,47 @@ if (CLIEngine.CLIEngine) { // ESLint 6.x
 }
 
 function extendsCallbacks(config, filename, dirname) {
-	// Expand the config, minus the rules
+	// A clean version of the config that will be based purely on the defaults/extends.
+	const baseConfig = Object.assign({}, config, {
+		rules: {},
+		overrides: [],
+	});
+	const result = Object.assign({}, baseConfig);
+
+	// Expand this config to get the actual values of the rules.
 	const cli = new CLIEngine({
 		useEslintrc: false,
 		allowInlineConfig: false,
-		baseConfig: Object.assign({}, config, { rules: {} }),
+		baseConfig,
 	});
-	const expanded = cli.getConfigForFile('index.js');
+	const expanded = cli.getConfigForFile('-');
 
-	// If the entire rules property is a callback we can short-circuit here.
-	if (typeof config.rules === 'function') {
-		return Object.assign({}, config, { rules: config.rules(expanded.rules) });
+	// Process overrides if they exist. We combine the extends from the override with that of the base config so that the
+	// callback actually receives the value the rule would have at that point.
+	if (config.overrides) {
+		result.overrides = config.overrides.map((override) => extendsCallbacks({
+			...override,
+			extends: [baseConfig.extends, override.extends].flat().filter((v) => v),
+		}));
 	}
 
-	// Look for any rules that are callbacks and invoke them
-	const expandedRules = Object
-		.entries(config.rules)
-		.map(function(entry) {
-			const key = entry[0], value = entry[1];
-			if (typeof value !== 'function') {
-				return [key, value];
-			}
-			return [key, value.apply(value, expanded.rules[key])];
-		})
-		.reduce(function(obj, entry) { return Object.assign(obj, { [entry[0]]: entry[1] }); }, {});
+	if (typeof config.rules === 'function') {
+		result.rules = config.rules(expanded.rules);
+	}
+	else {
+		result.rules = Object
+			.entries(config.rules)
+			.map(function(entry) {
+				const key = entry[0], value = entry[1];
+				if (typeof value !== 'function') {
+					return [key, value];
+				}
+				return [key, value.apply(value, expanded.rules[key])];
+			})
+			.reduce(function(obj, entry) { return Object.assign(obj, { [entry[0]]: entry[1] }); }, {});
+	}
 
-	// Merge with base config and return
-	return Object.assign({}, config, { rules: expandedRules });
+	return result;
 }
 
 module.exports = extendsCallbacks;
