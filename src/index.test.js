@@ -12,6 +12,21 @@ test('extendsCallbacks works with callback rules', () => {
 	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
 });
 
+test('extendsCallbacks works with a callback for the entire ruleset', () => {
+	const result = extendsCallbacks({
+		extends: 'airbnb',
+		rules: (rules) => ({
+			'no-multiple-empty-lines': (
+				r = rules['no-multiple-empty-lines'],
+				[r[0], { ...r[1], 'max': 5 }]
+			),
+		}),
+	}, __filename, __dirname);
+	expect(result.rules['no-multiple-empty-lines'][0]).toEqual('error');
+	expect(result.rules['no-multiple-empty-lines'][1].max).toEqual(5);
+	expect(result.rules['no-multiple-empty-lines'][1].maxEOF).toEqual(0);
+});
+
 test('extendsCallbacks works with static rules', () => {
 	const result = extendsCallbacks({
 		extends: 'airbnb',

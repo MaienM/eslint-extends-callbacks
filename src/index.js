@@ -12,6 +12,11 @@ function extendsCallbacks(config, filename, dirname) {
 	});
 	const expanded = cli.getConfigForFile('index.js');
 
+	// If the entire rules property is a callback we can short-circuit here.
+	if (typeof config.rules === 'function') {
+		return Object.assign({}, config, { rules: config.rules(expanded.rules) });
+	}
+
 	// Look for any rules that are callbacks and invoke them
 	const expandedRules = Object
 		.entries(config.rules)
