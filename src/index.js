@@ -1,7 +1,4 @@
-let CLIEngine = require('eslint/lib/cli-engine'); // ESLint 4.x and 5.x.
-if (CLIEngine.CLIEngine) { // ESLint 6.x
-	CLIEngine = CLIEngine.CLIEngine;
-}
+const { Legacy: { CascadingConfigArrayFactory } } = require('@eslint/eslintrc');
 
 function extendsCallbacks(config) {
 	// A clean version of the config that will be based purely on the defaults/extends.
@@ -11,12 +8,12 @@ function extendsCallbacks(config) {
 	const result = Object.assign({}, baseConfig);
 
 	// Expand this config to get the actual values of the rules.
-	const cli = new CLIEngine({
+	const ccaf = new CascadingConfigArrayFactory({
 		useEslintrc: false,
 		allowInlineConfig: false,
 		baseConfig,
 	});
-	const expanded = cli.getConfigForFile('-');
+	const expanded = ccaf.getConfigArrayForFile('/').extractConfig('/').toCompatibleObjectAsConfigFileContent();
 
 	// Process overrides if they exist. We combine the extends from the override with that of the base config so that the
 	// callback actually receives the value the rule would have at that point.
@@ -58,4 +55,3 @@ function extendsCallbacks(config) {
 }
 
 module.exports = extendsCallbacks;
-

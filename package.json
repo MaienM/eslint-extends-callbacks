@@ -19,15 +19,18 @@
     "url": "https://github.com/MaienM/eslint-extends-callbacks/issues"
   },
   "homepage": "https://github.com/MaienM/eslint-extends-callbacks#readme",
+  "dependencies": {
+    "@eslint/eslintrc": "^1.0.0"
+  },
   "peerDependencies": {
-    "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0"
+    "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.6",
-    "jest": "^26.4.1"
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.0",
+    "jest": "^27.3.1"
   }
 }
