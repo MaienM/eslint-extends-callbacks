@@ -1,6 +1,6 @@
 {
   "name": "eslint-extends-callbacks",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Allows extending the base eslint configs using callbacks to re-use parts of the overridden configs.",
   "main": "src/index.js",
   "scripts": {
